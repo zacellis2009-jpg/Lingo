@@ -10,5 +10,5 @@ export interface Word {
   /** Short grammar or usage tip. */
   note?: string;
   /** Where this word came from. */
-  source?: "starter" | "chat" | "generated";
+  source?: "starter" | "custom";
 }

@@ -4,35 +4,29 @@ import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 import SpeakButton from "@/components/SpeakButton";
 import Translit from "@/components/Translit";
-import { postJson } from "@/lib/api";
 import { LANGUAGES, type LangCode } from "@/lib/languages";
 import { isDue, isKnown } from "@/lib/srs";
 import {
   addCard,
+  addMoreDailyWords,
   ensureDailyWords,
   findWord,
-  makeId,
   markActive,
   updateState,
   useAppState,
   wordKey,
 } from "@/lib/store";
-import type { GeneratedWord } from "@/lib/tutor";
-import { STARTER_WORDS, type Word } from "@/lib/words";
+import { NEW_WORDS_PER_DAY, STARTER_WORDS, type Word } from "@/lib/words";
 
 export default function WordsPage() {
   const state = useAppState();
   const lang = state.lang;
   const language = LANGUAGES[lang];
   const l = state.langs[lang];
-  const [topic, setTopic] = useState("");
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
   const [filter, setFilter] = useState("");
 
   useEffect(() => {
     updateState((s) => ensureDailyWords(s, lang));
-    setError(null);
   }, [lang]);
 
   const todays = l.daily.ids.map((id) => findWord(lang, l, id)).filter((w): w is Word => !!w);
@@ -45,46 +39,6 @@ export default function WordsPage() {
     [l.cards, filter],
   );
   const starterLeft = STARTER_WORDS[lang].filter((w) => !l.cards[w.id] && !l.daily.ids.includes(w.id)).length;
-
-  async function getMore() {
-    setLoading(true);
-    setError(null);
-    try {
-      const existing = [
-        ...Object.values(l.cards).map((c) => c.word.word),
-        ...STARTER_WORDS[lang].map((w) => w.word),
-        ...todays.map((w) => w.word),
-      ];
-      const { words } = await postJson<{ words: GeneratedWord[] }>("/api/words", {
-        lang,
-        existing,
-        topic,
-        count: 5,
-      });
-      updateState((s) => {
-        const ls = s.langs[lang];
-        for (const g of words) {
-          const w: Word = {
-            id: makeId(lang),
-            word: g.word,
-            translation: g.translation,
-            example: g.example,
-            exampleTranslation: g.example_translation,
-            translit: g.translit || undefined,
-            note: g.note || undefined,
-            source: "generated",
-          };
-          ls.extraWords[w.id] = w;
-          ls.daily.ids.push(w.id);
-        }
-      });
-      setTopic("");
-    } catch (e) {
-      setError((e as Error).message);
-    } finally {
-      setLoading(false);
-    }
-  }
 
   return (
     <div className="space-y-6">
@@ -112,7 +66,7 @@ export default function WordsPage() {
         {todays.length === 0 && (
           <div className="rounded-2xl bg-white p-5 text-center text-slate-500 shadow-sm">
             {starterLeft === 0
-              ? "You've gone through all the starter words. Get more below!"
+              ? `You've learned all ${STARTER_WORDS[lang].length} words for now. Keep reviewing them!`
               : "No new words picked for today yet."}
           </div>
         )}
@@ -125,32 +79,23 @@ export default function WordsPage() {
 
         {todays.length > 0 && pendingToday.length === 0 && (
           <div className="mt-4 rounded-2xl bg-emerald-50 p-4 text-center text-emerald-800">
-            Nice! Now <Link href="/chat" className="font-semibold underline">use them in a chat</Link> or{" "}
+            Nice! Now <Link href="/practice" className="font-semibold underline">use them in a conversation</Link> or{" "}
             <Link href="/review" className="font-semibold underline">review them</Link>.
           </div>
         )}
       </section>
 
-      <section className="rounded-2xl bg-white p-4 shadow-sm">
-        <h2 className="font-semibold">Want more words?</h2>
-        <p className="text-sm text-slate-500">Pick a topic (optional) and your buddy will teach you 5 new ones.</p>
-        <div className="mt-3 flex gap-2">
-          <input
-            value={topic}
-            onChange={(e) => setTopic(e.target.value)}
-            placeholder="e.g. food, travel, family, colors"
-            className="min-w-0 flex-1 rounded-xl border border-slate-300 px-3 py-2 outline-none focus:border-brand-500"
-          />
+      {pendingToday.length === 0 && starterLeft > 0 && (
+        <section className="rounded-2xl bg-white p-4 text-center shadow-sm">
+          <p className="text-sm text-slate-600">Feeling good? You can learn the next {Math.min(starterLeft, NEW_WORDS_PER_DAY)} words now.</p>
           <button
-            onClick={getMore}
-            disabled={loading}
-            className="shrink-0 rounded-xl bg-brand-600 px-4 py-2 font-semibold text-white disabled:opacity-50"
+            onClick={() => updateState((s) => void addMoreDailyWords(s, lang))}
+            className="mt-2 rounded-xl border border-brand-600 px-4 py-2 font-semibold text-brand-700"
           >
-            {loading ? "…" : "Teach me"}
+            ＋ More words
           </button>
-        </div>
-        {error && <p className="mt-2 text-sm text-red-600">{error}</p>}
-      </section>
+        </section>
+      )}
 
       <section>
         <div className="mb-2 flex items-center justify-between gap-3">

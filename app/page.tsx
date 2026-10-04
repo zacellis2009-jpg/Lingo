@@ -39,7 +39,7 @@ export default function Home() {
 
       <section className="grid gap-3 sm:grid-cols-3">
         <ActionCard href="/words" emoji="📚" title="Today's words" text="Learn a few new words with sound and examples." />
-        <ActionCard href="/chat" emoji="💬" title="Practice chat" text="Talk or type with your buddy. Mistakes get gently fixed." />
+        <ActionCard href="/practice" emoji="💬" title="Conversations" text="Speak your part in real-life conversations." />
         <ActionCard
           href="/review"
           emoji="🔁"
@@ -48,6 +48,14 @@ export default function Home() {
           highlight={due > 0}
         />
       </section>
+
+      <Link href="/talk" className="flex items-center gap-3 rounded-2xl bg-white p-4 shadow-sm transition hover:shadow-md">
+        <span className="text-3xl">🗣️</span>
+        <span>
+          <span className="block font-semibold">Free talk</span>
+          <span className="block text-sm text-slate-500">Talk about anything using voice mode in the Claude app.</span>
+        </span>
+      </Link>
 
       <section>
         <h2 className="mb-2 text-sm font-semibold text-slate-500">Your languages</h2>
@@ -74,7 +82,7 @@ export default function Home() {
       {cards.length === 0 && (
         <section className="rounded-2xl bg-amber-50 p-4 text-sm text-amber-900">
           <b>New here?</b> Start with <Link href="/words" className="underline">Today&apos;s words</Link>, then try them out in
-          a <Link href="/chat" className="underline">practice chat</Link>. Voice mode works best in Chrome, or Safari on
+          a <Link href="/practice" className="underline">conversation</Link>. Voice mode works best in Chrome, or Safari on
           iPhone. Tip: add this page to your home screen to use it like an app.
         </section>
       )}

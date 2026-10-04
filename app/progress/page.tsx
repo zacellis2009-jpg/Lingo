@@ -37,15 +37,15 @@ export default function ProgressPage() {
         <dl className="mt-2 grid grid-cols-3 gap-2 text-center">
           <Mini label="Words" value={Object.keys(l.cards).length} />
           <Mini label="Due now" value={Object.values(l.cards).filter((c) => isDue(c)).length} />
-          <Mini label="Messages" value={l.messagesSent} />
+          <Mini label="Lines spoken" value={l.linesPracticed} />
         </dl>
       </section>
 
       <section>
-        <h2 className="mb-2 font-semibold">Recent corrections</h2>
+        <h2 className="mb-2 font-semibold">Phrases to practice</h2>
         {mistakes.length === 0 ? (
           <p className="text-sm text-slate-500">
-            No corrections yet. Mistakes from your chats show up here so you can learn from them.
+            Nothing yet. Phrases you get stuck on in conversations show up here so you can practice them.
           </p>
         ) : (
           <ul className="space-y-2">
@@ -66,9 +66,9 @@ export default function ProgressPage() {
       <section className="border-t border-slate-200 pt-4">
         <button
           onClick={() => {
-            if (!confirm(`Reset all ${language.name} progress? Your words, chat and corrections will be deleted.`)) return;
+            if (!confirm(`Reset all ${language.name} progress? Your words, conversations and phrases to practice will be deleted.`)) return;
             updateState((s) => {
-              s.langs[lang] = { ...s.langs[lang], cards: {}, extraWords: {}, daily: { date: "", ids: [] }, mistakes: [], chat: [], messagesSent: 0 };
+              s.langs[lang] = { ...s.langs[lang], cards: {}, extraWords: {}, daily: { date: "", ids: [] }, mistakes: [], dialoguesDone: {}, linesPracticed: 0 };
             });
           }}
           className="text-sm text-red-600 hover:underline"

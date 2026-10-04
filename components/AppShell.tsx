@@ -8,11 +8,17 @@ import { stopSpeaking } from "@/lib/speech";
 
 const NAV = [
   { href: "/", label: "Home", icon: "🏠" },
-  { href: "/chat", label: "Practice", icon: "💬" },
+  { href: "/practice", label: "Practice", icon: "💬" },
   { href: "/words", label: "Words", icon: "📚" },
   { href: "/review", label: "Review", icon: "🔁" },
   { href: "/progress", label: "Progress", icon: "📈" },
 ];
+
+function isActive(pathname: string, href: string): boolean {
+  if (href === "/") return pathname === "/";
+  if (href === "/practice") return pathname.startsWith("/practice") || pathname === "/talk";
+  return pathname.startsWith(href);
+}
 
 export default function AppShell({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
@@ -65,7 +71,7 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
               key={item.href}
               href={item.href}
               className={`px-3 py-2 text-sm font-medium ${
-                pathname === item.href ? "border-b-2 border-brand-600 text-brand-700" : "text-slate-500 hover:text-slate-800"
+                isActive(pathname, item.href) ? "border-b-2 border-brand-600 text-brand-700" : "text-slate-500 hover:text-slate-800"
               }`}
             >
               {item.icon} {item.label}
@@ -83,7 +89,7 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
               key={item.href}
               href={item.href}
               className={`flex flex-col items-center px-2 text-[11px] font-medium ${
-                pathname === item.href ? "text-brand-600" : "text-slate-500"
+                isActive(pathname, item.href) ? "text-brand-600" : "text-slate-500"
               }`}
             >
               <span className="text-xl leading-6">{item.icon}</span>

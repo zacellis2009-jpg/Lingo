@@ -7,23 +7,10 @@
 import { useSyncExternalStore } from "react";
 import { LANG_CODES, type LangCode } from "./languages";
 import { newCard, today, type Card } from "./srs";
-import type { Correction, TutorReply } from "./tutor";
 import { NEW_WORDS_PER_DAY, STARTER_WORDS, type Word } from "./words";
 
 const STORAGE_KEY = "lingo-buddy:v1";
-const MAX_CHAT_MESSAGES = 120;
 const MAX_MISTAKES = 200;
-
-export interface ChatMessage {
-  id: string;
-  role: "user" | "assistant";
-  /** What the learner typed or said. */
-  text?: string;
-  spoken?: boolean;
-  /** Correction of this user message, filled in when the tutor replies. */
-  correction?: Correction;
-  reply?: TutorReply;
-}
 
 export interface Mistake {
   at: string;
@@ -34,13 +21,15 @@ export interface Mistake {
 
 export interface LangState {
   cards: Record<string, Card>;
-  /** Words learned from chat or generated, keyed by id. */
+  /** Words added outside the starter list, keyed by id. */
   extraWords: Record<string, Word>;
   daily: { date: string; ids: string[] };
+  /** Phrases the learner struggled with in conversations. */
   mistakes: Mistake[];
-  chat: ChatMessage[];
-  scenario: string;
-  messagesSent: number;
+  /** How many times each conversation was finished, by dialogue id. */
+  dialoguesDone: Record<string, number>;
+  /** Learner turns answered in conversations. */
+  linesPracticed: number;
 }
 
 export interface AppState {
@@ -50,6 +39,8 @@ export interface AppState {
   showTranslation: boolean;
   autoSpeak: boolean;
   speechRate: number;
+  /** Easy shows the phrases to say; challenge only gives the English. */
+  practiceMode: "easy" | "challenge";
   /** Days (YYYY-MM-DD) with any practice, for the streak. */
   activityDays: string[];
   langs: Record<LangCode, LangState>;
@@ -61,9 +52,8 @@ function emptyLang(): LangState {
     extraWords: {},
     daily: { date: "", ids: [] },
     mistakes: [],
-    chat: [],
-    scenario: "free",
-    messagesSent: 0,
+    dialoguesDone: {},
+    linesPracticed: 0,
   };
 }
 
@@ -75,6 +65,7 @@ function defaultState(): AppState {
     showTranslation: true,
     autoSpeak: true,
     speechRate: 0.85,
+    practiceMode: "easy",
     activityDays: [],
     langs: Object.fromEntries(LANG_CODES.map((c) => [c, emptyLang()])) as Record<LangCode, LangState>,
   };
@@ -92,7 +83,10 @@ function load(): AppState {
     const saved = JSON.parse(raw) as Partial<AppState>;
     const langs = { ...base.langs };
     for (const code of LANG_CODES) {
-      langs[code] = { ...emptyLang(), ...(saved.langs?.[code] ?? {}) };
+      // Drop fields from older versions (e.g. the AI chat history).
+      const { chat: _chat, scenario: _scenario, messagesSent: _sent, ...rest } = (saved.langs?.[code] ??
+        {}) as Partial<LangState> & { chat?: unknown; scenario?: unknown; messagesSent?: unknown };
+      langs[code] = { ...emptyLang(), ...rest };
     }
     return { ...base, ...saved, langs };
   } catch {
@@ -129,7 +123,6 @@ export function updateState(mutate: (draft: AppState) => void): void {
   mutate(draft);
   for (const code of LANG_CODES) {
     const l = draft.langs[code];
-    if (l.chat.length > MAX_CHAT_MESSAGES) l.chat = l.chat.slice(-MAX_CHAT_MESSAGES);
     if (l.mistakes.length > MAX_MISTAKES) l.mistakes = l.mistakes.slice(-MAX_MISTAKES);
   }
   cache = draft;
@@ -177,6 +170,16 @@ export function ensureDailyWords(draft: AppState, lang: LangCode): void {
   const seen = new Set([...Object.keys(l.cards), ...l.daily.ids]);
   const fresh = STARTER_WORDS[lang].filter((w) => !seen.has(w.id)).slice(0, NEW_WORDS_PER_DAY);
   l.daily = { date: t, ids: fresh.map((w) => w.id) };
+}
+
+/** Add another batch of new words to today's list (for fast learners). */
+export function addMoreDailyWords(draft: AppState, lang: LangCode): number {
+  ensureDailyWords(draft, lang);
+  const l = draft.langs[lang];
+  const seen = new Set([...Object.keys(l.cards), ...l.daily.ids]);
+  const fresh = STARTER_WORDS[lang].filter((w) => !seen.has(w.id)).slice(0, NEW_WORDS_PER_DAY);
+  l.daily.ids.push(...fresh.map((w) => w.id));
+  return fresh.length;
 }
 
 export function addCard(draft: AppState, lang: LangCode, word: Word): void {

@@ -76,8 +76,8 @@ export default function ReviewPage() {
           <Link href="/words" className="rounded-xl bg-brand-600 px-5 py-2.5 font-semibold text-white">
             Learn words
           </Link>
-          <Link href="/chat" className="rounded-xl border border-slate-300 px-5 py-2.5 font-semibold">
-            Practice chat
+          <Link href="/practice" className="rounded-xl border border-slate-300 px-5 py-2.5 font-semibold">
+            Conversations
           </Link>
         </div>
       </div>
