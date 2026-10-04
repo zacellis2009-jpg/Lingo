@@ -1,0 +1,52 @@
+import type { Word } from "./types";
+
+type Entry = Omit<Word, "id" | "source">;
+
+const entries: Entry[] = [
+  { word: "hola", translation: "hello / hi", example: "¡Hola! ¿Cómo estás?", exampleTranslation: "Hi! How are you?", note: "The h is silent: OH-la." },
+  { word: "adiós", translation: "goodbye", example: "Adiós, ¡hasta mañana!", exampleTranslation: "Goodbye, see you tomorrow!" },
+  { word: "gracias", translation: "thank you", example: "Muchas gracias.", exampleTranslation: "Thank you very much." },
+  { word: "por favor", translation: "please", example: "Un café, por favor.", exampleTranslation: "A coffee, please." },
+  { word: "sí", translation: "yes", example: "Sí, quiero agua.", exampleTranslation: "Yes, I want water.", note: "With an accent it means yes; without (si) it means if." },
+  { word: "no", translation: "no / not", example: "No, gracias.", exampleTranslation: "No, thank you." },
+  { word: "buenos días", translation: "good morning", example: "Buenos días, señora.", exampleTranslation: "Good morning, ma'am." },
+  { word: "buenas noches", translation: "good evening / good night", example: "Buenas noches, hasta mañana.", exampleTranslation: "Good night, see you tomorrow." },
+  { word: "perdón", translation: "sorry / excuse me", example: "Perdón, ¿dónde está el baño?", exampleTranslation: "Excuse me, where is the bathroom?" },
+  { word: "me llamo…", translation: "my name is…", example: "Me llamo Zac.", exampleTranslation: "My name is Zac." },
+  { word: "¿cómo estás?", translation: "how are you?", example: "Hola, ¿cómo estás?", exampleTranslation: "Hi, how are you?" },
+  { word: "bien", translation: "well / fine / good", example: "Estoy bien, gracias.", exampleTranslation: "I'm fine, thanks." },
+  { word: "mucho gusto", translation: "nice to meet you", example: "Me llamo Ana. ¡Mucho gusto!", exampleTranslation: "My name is Ana. Nice to meet you!" },
+  { word: "el agua", translation: "water", example: "Quiero agua, por favor.", exampleTranslation: "I want water, please.", note: "Feminine, but uses \"el\" because it starts with a stressed a." },
+  { word: "la comida", translation: "food / meal", example: "La comida está muy rica.", exampleTranslation: "The food is very tasty." },
+  { word: "el café", translation: "coffee / café", example: "Me gusta el café.", exampleTranslation: "I like coffee." },
+  { word: "el pan", translation: "bread", example: "El pan está en la mesa.", exampleTranslation: "The bread is on the table." },
+  { word: "la casa", translation: "house / home", example: "Mi casa es pequeña.", exampleTranslation: "My house is small." },
+  { word: "el amigo / la amiga", translation: "friend (m / f)", example: "Ella es mi amiga.", exampleTranslation: "She is my friend." },
+  { word: "la familia", translation: "family", example: "Mi familia es grande.", exampleTranslation: "My family is big." },
+  { word: "el gato", translation: "cat", example: "El gato duerme.", exampleTranslation: "The cat is sleeping." },
+  { word: "el perro", translation: "dog", example: "Tengo un perro.", exampleTranslation: "I have a dog.", note: "Roll the double rr!" },
+  { word: "el libro", translation: "book", example: "Es un buen libro.", exampleTranslation: "It's a good book." },
+  { word: "uno", translation: "one", example: "Un café, por favor.", exampleTranslation: "One coffee, please.", note: "Becomes \"un\" before a masculine noun." },
+  { word: "dos", translation: "two", example: "Dos cervezas, por favor.", exampleTranslation: "Two beers, please." },
+  { word: "tres", translation: "three", example: "Tengo tres hermanos.", exampleTranslation: "I have three siblings." },
+  { word: "yo", translation: "I", example: "Yo soy estudiante.", exampleTranslation: "I am a student." },
+  { word: "tú", translation: "you (informal)", example: "¿Tú hablas inglés?", exampleTranslation: "Do you speak English?" },
+  { word: "comer", translation: "to eat", example: "Quiero comer.", exampleTranslation: "I want to eat." },
+  { word: "beber", translation: "to drink", example: "Quiero beber agua.", exampleTranslation: "I want to drink water." },
+  { word: "hablar", translation: "to speak", example: "Hablo un poco de español.", exampleTranslation: "I speak a little Spanish." },
+  { word: "quiero", translation: "I want", example: "Quiero un café.", exampleTranslation: "I want a coffee.", note: "From querer (to want)." },
+  { word: "grande", translation: "big", example: "Es una ciudad grande.", exampleTranslation: "It's a big city." },
+  { word: "pequeño", translation: "small", example: "Tengo un perro pequeño.", exampleTranslation: "I have a small dog." },
+  { word: "hoy", translation: "today", example: "Hoy hace sol.", exampleTranslation: "It's sunny today." },
+  { word: "mañana", translation: "tomorrow / morning", example: "¡Hasta mañana!", exampleTranslation: "See you tomorrow!" },
+  { word: "¿dónde?", translation: "where?", example: "¿Dónde está el metro?", exampleTranslation: "Where is the metro?" },
+  { word: "¿qué?", translation: "what?", example: "¿Qué es esto?", exampleTranslation: "What is this?" },
+  { word: "el baño", translation: "bathroom / restroom", example: "¿Dónde está el baño?", exampleTranslation: "Where is the bathroom?" },
+  { word: "la cuenta", translation: "the bill / check", example: "La cuenta, por favor.", exampleTranslation: "The check, please." },
+];
+
+export const SPANISH_STARTER: Word[] = entries.map((e, i) => ({
+  ...e,
+  id: `es-starter-${i}`,
+  source: "starter",
+}));

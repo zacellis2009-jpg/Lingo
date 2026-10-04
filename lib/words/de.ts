@@ -1,0 +1,52 @@
+import type { Word } from "./types";
+
+type Entry = Omit<Word, "id" | "source">;
+
+const entries: Entry[] = [
+  { word: "Hallo", translation: "hello / hi", example: "Hallo! Wie geht's?", exampleTranslation: "Hi! How's it going?" },
+  { word: "Tschüss", translation: "bye", example: "Tschüss, bis morgen!", exampleTranslation: "Bye, see you tomorrow!" },
+  { word: "Danke", translation: "thank you", example: "Danke schön!", exampleTranslation: "Thank you very much!" },
+  { word: "Bitte", translation: "please / you're welcome", example: "Einen Kaffee, bitte.", exampleTranslation: "A coffee, please." },
+  { word: "Ja", translation: "yes", example: "Ja, gern.", exampleTranslation: "Yes, gladly." },
+  { word: "Nein", translation: "no", example: "Nein, danke.", exampleTranslation: "No, thank you." },
+  { word: "Guten Morgen", translation: "good morning", example: "Guten Morgen! Wie geht es Ihnen?", exampleTranslation: "Good morning! How are you? (formal)" },
+  { word: "Gute Nacht", translation: "good night", example: "Gute Nacht, schlaf gut!", exampleTranslation: "Good night, sleep well!" },
+  { word: "Entschuldigung", translation: "excuse me / sorry", example: "Entschuldigung, wo ist die Toilette?", exampleTranslation: "Excuse me, where is the restroom?" },
+  { word: "Ich heiße…", translation: "my name is…", example: "Ich heiße Zac.", exampleTranslation: "My name is Zac." },
+  { word: "Wie geht's?", translation: "how are you?", example: "Hallo Anna, wie geht's?", exampleTranslation: "Hi Anna, how are you?" },
+  { word: "gut", translation: "good / well", example: "Mir geht's gut, danke.", exampleTranslation: "I'm doing well, thanks." },
+  { word: "das Wasser", translation: "water", example: "Ein Glas Wasser, bitte.", exampleTranslation: "A glass of water, please.", note: "das = neuter noun." },
+  { word: "das Essen", translation: "food / meal", example: "Das Essen ist lecker.", exampleTranslation: "The food is delicious." },
+  { word: "der Kaffee", translation: "coffee", example: "Ich trinke gern Kaffee.", exampleTranslation: "I like drinking coffee.", note: "der = masculine noun." },
+  { word: "das Brot", translation: "bread", example: "Das Brot ist frisch.", exampleTranslation: "The bread is fresh." },
+  { word: "das Haus", translation: "house", example: "Das Haus ist groß.", exampleTranslation: "The house is big." },
+  { word: "der Freund / die Freundin", translation: "friend (m / f)", example: "Sie ist meine Freundin.", exampleTranslation: "She is my friend." },
+  { word: "die Mutter", translation: "mother", example: "Meine Mutter ist zu Hause.", exampleTranslation: "My mother is at home.", note: "die = feminine noun." },
+  { word: "der Vater", translation: "father", example: "Mein Vater arbeitet.", exampleTranslation: "My father is working.", note: "The V sounds like an F." },
+  { word: "die Katze", translation: "cat", example: "Die Katze schläft.", exampleTranslation: "The cat is sleeping." },
+  { word: "der Hund", translation: "dog", example: "Ich habe einen Hund.", exampleTranslation: "I have a dog." },
+  { word: "das Buch", translation: "book", example: "Das ist ein gutes Buch.", exampleTranslation: "That is a good book." },
+  { word: "eins", translation: "one", example: "Eins, zwei, drei!", exampleTranslation: "One, two, three!" },
+  { word: "zwei", translation: "two", example: "Zwei Kaffee, bitte.", exampleTranslation: "Two coffees, please." },
+  { word: "drei", translation: "three", example: "Ich habe drei Brüder.", exampleTranslation: "I have three brothers." },
+  { word: "ich", translation: "I", example: "Ich bin Student.", exampleTranslation: "I am a student." },
+  { word: "du", translation: "you (informal)", example: "Sprichst du Englisch?", exampleTranslation: "Do you speak English?" },
+  { word: "essen", translation: "to eat", example: "Ich möchte essen.", exampleTranslation: "I would like to eat." },
+  { word: "trinken", translation: "to drink", example: "Ich trinke Wasser.", exampleTranslation: "I drink water." },
+  { word: "sprechen", translation: "to speak", example: "Ich spreche ein bisschen Deutsch.", exampleTranslation: "I speak a little German." },
+  { word: "ich möchte", translation: "I would like", example: "Ich möchte einen Tee.", exampleTranslation: "I would like a tea." },
+  { word: "groß", translation: "big / tall", example: "Berlin ist groß.", exampleTranslation: "Berlin is big.", note: "ß sounds like a sharp s." },
+  { word: "klein", translation: "small", example: "Mein Hund ist klein.", exampleTranslation: "My dog is small." },
+  { word: "heute", translation: "today", example: "Heute ist es kalt.", exampleTranslation: "It's cold today." },
+  { word: "morgen", translation: "tomorrow", example: "Bis morgen!", exampleTranslation: "See you tomorrow!" },
+  { word: "wo?", translation: "where?", example: "Wo ist der Bahnhof?", exampleTranslation: "Where is the train station?" },
+  { word: "was?", translation: "what?", example: "Was ist das?", exampleTranslation: "What is that?" },
+  { word: "die Toilette", translation: "restroom / toilet", example: "Wo ist die Toilette?", exampleTranslation: "Where is the restroom?" },
+  { word: "die Rechnung", translation: "the bill / check", example: "Die Rechnung, bitte.", exampleTranslation: "The check, please." },
+];
+
+export const GERMAN_STARTER: Word[] = entries.map((e, i) => ({
+  ...e,
+  id: `de-starter-${i}`,
+  source: "starter",
+}));
