@@ -3,13 +3,14 @@
 A friendly language buddy for **Spanish 🇪🇸, German 🇩🇪 and Russian 🇷🇺**, built for complete beginners. Works on your phone and computer. **No API key, no account, no cost.**
 
 - **Today's words**: 7 new beginner words a day (70 per language) with audio, example sentences and tips.
-- **Conversations**: real-life role-plays (introductions, café, directions, shopping). Your buddy speaks a line, then you answer by speaking 🎙️ or typing, and the app checks your answer.
+- **Conversations**: 7 real-life role-plays per language (introductions, café, directions, shopping, hotel, restaurant, small talk). Your buddy speaks a line, then you answer by speaking 🎙️ or typing, and the app checks your answer.
   - *Easy* mode shows the phrases you can say.
   - *Challenge* mode only shows the English, so you say it from memory.
 - **Review**: spaced-repetition flashcards, so words come back right before you'd forget them.
 - **Free talk**: copy-ready tutor instructions for the Claude app's voice mode, for open conversation about anything. They include the words you're learning in Lingo.
 - **Russian helpers**: stress marks (приве́т), Latin letters under the Cyrillic (*privét*), an on-screen Cyrillic keyboard, and you can type answers in Latin letters ("menya zovut Zac").
 - **Progress**: day streak, words known, and phrases you got stuck on.
+- **Phone ↔ computer**: copy a progress code (or save a file) on one device and add it on the other. Progress from both is combined, so nothing is lost.
 
 ## Run it on your computer
 
@@ -57,6 +58,6 @@ Tips:
 
 ## Roadmap
 
-- [ ] Sync progress between phone and computer
+- [ ] Automatic syncing between devices (needs a free account, e.g. Supabase)
 - [ ] More conversations and words
 - [ ] Hands-free mode (auto-listen after each line)

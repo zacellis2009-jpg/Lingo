@@ -189,4 +189,163 @@ export const RUSSIAN_DIALOGUES: Dialogue[] = [
       { buddy: "До свида́ния!", english: "Goodbye!" },
     ],
   },
+  {
+    id: "hotel",
+    title: "At the hotel",
+    emoji: "🏨",
+    description: "Check in, say how many nights, and ask about breakfast.",
+    lines: [
+      {
+        buddy: "До́брый ве́чер! Добро́ пожа́ловать в оте́ль.",
+        english: "Good evening! Welcome to the hotel.",
+        replies: [
+          { text: "До́брый ве́чер. У меня́ бронь.", english: "Good evening. I have a reservation." },
+          { text: "Здра́вствуйте, у меня́ бронь.", english: "Hello, I have a reservation." },
+        ],
+      },
+      {
+        buddy: "Хорошо́. Как ва́ша фами́лия?",
+        english: "OK. What is your last name?",
+        replies: [
+          { text: "Моя́ фами́лия {x}.", english: "My last name is …" },
+          { text: "Меня́ зову́т {x}.", english: "My name is …" },
+        ],
+      },
+      {
+        buddy: "Спаси́бо. На ско́лько ноче́й?",
+        english: "Thank you. For how many nights?",
+        replies: [
+          { text: "На две но́чи.", english: "For two nights." },
+          { text: "На три но́чи.", english: "For three nights." },
+          { text: "На одну́ ночь.", english: "For one night." },
+        ],
+      },
+      {
+        buddy: "Вот ваш ключ. Ко́мната де́сять.",
+        english: "Here is your key. Room ten.",
+        replies: [
+          { text: "Спаси́бо. Когда́ за́втрак?", english: "Thanks. When is breakfast?" },
+          { text: "Когда́ за́втрак?", english: "When is breakfast?" },
+        ],
+      },
+      {
+        buddy: "За́втрак в семь часо́в.",
+        english: "Breakfast is at seven o'clock.",
+        replies: [
+          { text: "Хорошо́, спаси́бо.", english: "OK, thanks." },
+          { text: "Спаси́бо большо́е.", english: "Thank you very much." },
+        ],
+      },
+      { buddy: "Пожа́луйста. Хоро́шего о́тдыха!", english: "You're welcome. Have a nice stay!" },
+    ],
+  },
+  {
+    id: "restaurant",
+    title: "At a restaurant",
+    emoji: "🍽️",
+    description: "Get a table, order food and a drink, and say it was tasty.",
+    lines: [
+      {
+        buddy: "До́брый ве́чер! Сто́лик на ско́лько челове́к?",
+        english: "Good evening! A table for how many people?",
+        replies: [
+          { text: "На двои́х, пожа́луйста.", english: "For two, please." },
+          { text: "На одного́, пожа́луйста.", english: "For one, please." },
+        ],
+      },
+      {
+        buddy: "Вот меню́. Что бу́дете зака́зывать?",
+        english: "Here's the menu. What will you order?",
+        replies: [
+          { text: "Борщ, пожа́луйста.", english: "Borscht, please." },
+          { text: "Я хочу́ сала́т, пожа́луйста.", english: "I want a salad, please." },
+        ],
+      },
+      {
+        buddy: "А что бу́дете пить?",
+        english: "And what will you drink?",
+        replies: [
+          { text: "Во́ду, пожа́луйста.", english: "Water, please." },
+          { text: "Чай, пожа́луйста.", english: "Tea, please." },
+          { text: "Пи́во, пожа́луйста.", english: "Beer, please." },
+        ],
+      },
+      {
+        buddy: "Вам нра́вится?",
+        english: "Do you like it?",
+        replies: [
+          { text: "Да, о́чень вку́сно!", english: "Yes, very tasty!" },
+          { text: "Да, спаси́бо.", english: "Yes, thank you." },
+        ],
+      },
+      {
+        buddy: "Отли́чно! Хоти́те десе́рт?",
+        english: "Great! Would you like dessert?",
+        replies: [
+          { text: "Нет, спаси́бо. Счёт, пожа́луйста.", english: "No, thanks. The check, please." },
+          { text: "Да, моро́женое, пожа́луйста.", english: "Yes, ice cream, please." },
+        ],
+      },
+      {
+        buddy: "Коне́чно. Вот, пожа́луйста.",
+        english: "Of course. Here you go.",
+        replies: [
+          { text: "Спаси́бо, всё бы́ло о́чень вку́сно!", english: "Thanks, everything was delicious!" },
+          { text: "Спаси́бо.", english: "Thanks." },
+        ],
+      },
+      { buddy: "Спаси́бо! Приходи́те ещё!", english: "Thank you! Come again!" },
+    ],
+  },
+  {
+    id: "smalltalk",
+    title: "Small talk",
+    emoji: "☀️",
+    description: "Chat with a new friend about hobbies, family and coffee.",
+    lines: [
+      {
+        buddy: "Приве́т! Как дела́?",
+        english: "Hi! How are you?",
+        replies: [
+          { text: "Хорошо́, а у тебя́?", english: "Good, and you?" },
+          { text: "Отли́чно, спаси́бо.", english: "Great, thanks." },
+        ],
+      },
+      {
+        buddy: "То́же хорошо́. Что ты лю́бишь де́лать?",
+        english: "Good too. What do you like to do?",
+        replies: [
+          { text: "Я люблю́ чита́ть.", english: "I like reading." },
+          { text: "Я люблю́ му́зыку.", english: "I love music." },
+          { text: "Я люблю́ {x}.", english: "I like …" },
+        ],
+      },
+      {
+        buddy: "Здо́рово! У тебя́ есть брат и́ли сестра́?",
+        english: "Cool! Do you have a brother or sister?",
+        replies: [
+          { text: "Да, у меня́ есть брат.", english: "Yes, I have a brother." },
+          { text: "Да, у меня́ есть сестра́.", english: "Yes, I have a sister." },
+          { text: "Нет, у меня́ нет.", english: "No, I don't." },
+        ],
+      },
+      {
+        buddy: "Ты лю́бишь ко́фе и́ли чай?",
+        english: "Do you like coffee or tea?",
+        replies: [
+          { text: "Я люблю́ ко́фе.", english: "I like coffee." },
+          { text: "Я люблю́ чай.", english: "I like tea." },
+        ],
+      },
+      {
+        buddy: "Я то́же! Ну, мне пора́. До за́втра!",
+        english: "Me too! Well, I have to go. See you tomorrow!",
+        replies: [
+          { text: "До за́втра!", english: "See you tomorrow!" },
+          { text: "Пока́, до за́втра!", english: "Bye, see you tomorrow!" },
+        ],
+      },
+      { buddy: "Пока́!", english: "Bye!" },
+    ],
+  },
 ];

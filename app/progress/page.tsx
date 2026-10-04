@@ -1,6 +1,7 @@
 "use client";
 
 import SpeakButton from "@/components/SpeakButton";
+import TransferProgress from "@/components/TransferProgress";
 import { LANG_CODES, LANGUAGES } from "@/lib/languages";
 import { isDue, isKnown } from "@/lib/srs";
 import { streak, updateState, useAppState } from "@/lib/store";
@@ -63,6 +64,8 @@ export default function ProgressPage() {
         )}
       </section>
 
+      <TransferProgress />
+
       <section className="border-t border-slate-200 pt-4">
         <button
           onClick={() => {
@@ -75,7 +78,7 @@ export default function ProgressPage() {
         >
           Reset {language.name} progress
         </button>
-        <p className="mt-1 text-xs text-slate-400">Progress is saved in this browser.</p>
+        <p className="mt-1 text-xs text-slate-400">Progress is saved in this browser on this device.</p>
       </section>
     </div>
   );

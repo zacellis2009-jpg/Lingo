@@ -71,14 +71,18 @@ export function checkAnswer(attempt: string, options: string[], isRussian = fals
   const attemptTokens = tokens(attempt);
   const latinOnly = isRussian && !/[Ѐ-ӿ]/.test(attempt);
   let bestScore = -1;
+  let bestGap = Infinity;
   let best = options[0];
   for (const option of options) {
     // Let Russian learners type in Latin letters ("menya zovut Zac").
     // transliterate() leaves Latin text such as "{x}" untouched.
     const expected = tokens(latinOnly ? transliterate(option) : option);
     const s = score(attemptTokens, expected);
-    if (s > bestScore) {
+    // On a tie, prefer the option closest in length to what was said.
+    const gap = Math.abs(expected.length - attemptTokens.length);
+    if (s > bestScore || (s === bestScore && gap < bestGap)) {
       bestScore = s;
+      bestGap = gap;
       best = option;
     }
   }

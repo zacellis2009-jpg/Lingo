@@ -208,3 +208,66 @@ export function hasWord(state: LangState, text: string): boolean {
 export function makeId(prefix: string): string {
   return `${prefix}-${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 8)}`;
 }
+
+// ---------- moving progress between devices ----------
+
+const CODE_PREFIX = "LINGO1:";
+
+function toBase64(text: string): string {
+  const bytes = new TextEncoder().encode(text);
+  let binary = "";
+  for (let i = 0; i < bytes.length; i += 0x8000) {
+    binary += String.fromCharCode(...bytes.subarray(i, i + 0x8000));
+  }
+  return btoa(binary);
+}
+
+function fromBase64(b64: string): string {
+  const binary = atob(b64);
+  const bytes = Uint8Array.from(binary, (c) => c.charCodeAt(0));
+  return new TextDecoder().decode(bytes);
+}
+
+/** All progress as a text code that can be pasted on another device. */
+export function exportProgress(): string {
+  return CODE_PREFIX + toBase64(JSON.stringify(getSnapshot()));
+}
+
+/** Parse a progress code (or the raw JSON from a progress file). Throws if it isn't valid. */
+export function parseProgress(text: string): AppState {
+  const trimmed = text.trim();
+  const json = trimmed.startsWith(CODE_PREFIX) ? fromBase64(trimmed.slice(CODE_PREFIX.length).replace(/\s/g, "")) : trimmed;
+  const data = JSON.parse(json) as Partial<AppState>;
+  if (data.version !== 1 || typeof data.langs !== "object") throw new Error("Not a Lingo progress code");
+  return data as AppState;
+}
+
+/**
+ * Combine progress from another device into this one. Nothing is lost:
+ * words from both are kept (the more practiced copy wins), streak days are joined,
+ * and counters keep the higher number. Settings on this device stay as they are.
+ */
+export function mergeProgress(incoming: AppState): void {
+  updateState((s) => {
+    s.activityDays = [...new Set([...s.activityDays, ...(incoming.activityDays ?? [])])].sort();
+    for (const code of LANG_CODES) {
+      const mine = s.langs[code];
+      const theirs = { ...emptyLang(), ...(incoming.langs?.[code] ?? {}) };
+      for (const [id, card] of Object.entries(theirs.cards)) {
+        const local = mine.cards[id];
+        if (!local || card.reps > local.reps || (card.reps === local.reps && card.due > local.due)) {
+          mine.cards[id] = card;
+        }
+      }
+      mine.extraWords = { ...theirs.extraWords, ...mine.extraWords };
+      const seen = new Set(mine.mistakes.map((m) => m.at));
+      mine.mistakes = [...mine.mistakes, ...theirs.mistakes.filter((m) => !seen.has(m.at))].sort((a, b) =>
+        a.at.localeCompare(b.at),
+      );
+      for (const [id, n] of Object.entries(theirs.dialoguesDone)) {
+        mine.dialoguesDone[id] = Math.max(mine.dialoguesDone[id] ?? 0, n);
+      }
+      mine.linesPracticed = Math.max(mine.linesPracticed, theirs.linesPracticed);
+    }
+  });
+}
